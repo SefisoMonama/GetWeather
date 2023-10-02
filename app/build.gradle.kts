@@ -59,4 +59,7 @@ dependencies {
     //Coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
+    //Picasso (to open icons/images from URL)
+    implementation("com.squareup.picasso:picasso:2.8")
 }

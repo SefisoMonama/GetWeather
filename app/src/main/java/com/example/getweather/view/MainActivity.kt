@@ -5,15 +5,21 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
+import com.example.getweather.data.adapter.hourlyWeatherAdapter
+import com.example.getweather.data.forecastModels.ForecastData
 import com.example.getweather.data.utils.RetrofitInstance
 import com.example.getweather.data.utils.util
 import com.example.getweather.databinding.ActivityMainBinding
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         getCurrentWeather()
+        getForecast()
     }
 
     //get current weather details
@@ -51,13 +58,103 @@ class MainActivity : AppCompatActivity() {
             //check response code and body for data extraction
             if (response.isSuccessful && response.body() != null){
                 withContext(Dispatchers.IO){
-                    binding.temperatureTextView.text = response.body()!!.main.temp.toString()
-                    //response.body().weather[2]
+
+                //whole response will be located in this variable in a JSON format
+                    val data = response.body()!!
+
+                //get IconId to generate URL
+                    val iconId = data.weather[0].icon
+
+                //build image url
+                    val imageUrl = "${util.IMAGE_BASE_URL + iconId}.png"
+
+
+                    //Handler(Looper.getMainLooper()).post {
+
+                        //}
+
+                    runOnUiThread(){
+
+                        //load the image in the view
+                        Picasso.get().load(imageUrl).into(binding.weatherImageView)
+
+                        //convert sunrise and sunset to minutes and hours
+                        binding.sunriseTimeTextView.text= "Sunrise: " + SimpleDateFormat(
+                            "hh:mm a",
+                            Locale.ENGLISH
+                        ).format(Date(data.sys.sunrise.toLong() * 1000))
+
+                        binding.sunsetTimeTextView.text=
+                            SimpleDateFormat(
+                                "hh:mm a",
+                                Locale.ENGLISH
+                            ).format(data.sys.sunset * 1000)
+
+                        //for other view
+                        binding.apply {
+                            descriptionTextView.text = data.weather[0].description
+                            windSpeedTextView.text = "${data.wind.speed.toString()} KM/H | ${data.wind.deg.toInt()}°"
+                            locationTextView.text = "${data.name}\n${data.sys.country}"
+                            temperatureTextView.text= "${data.main.temp.toInt()}℃"
+                            feelsLikeTemperatureTextView.text = " ${data.main.feels_like.toInt()}℃"
+                            minTenperatureTextView.text = "L: ${data.main.temp_min.toInt()}℃"
+                            maxTemperatureTextView.text = "H: ${data.main.temp_max.toInt()}℃"
+                            humidityTextView.text = "${data.main.humidity}%"
+                            pressureTextView.text = "${data.main.pressure}\nhPa"
+                            visibilityTextView.text = "${data.visibility} KM"
+                        }
+                    }
+
                 }
-            }else{
-                binding.tempTextView.text = "No data found!"
             }
         }
+    }
+
+    //get hourly(3 hours interval) forecast for up to 5 days
+    private fun getForecast(){
+        //Coroutine
+        GlobalScope.launch(Dispatchers.IO) {
+            val response = try {
+                //get current weather of the specified queries
+                RetrofitInstance.api.getForecast("Pretoria", "metric", util.API_KEY)
+
+            } catch (e: IOException) {
+                Handler(Looper.getMainLooper()).post {
+                    Toast.makeText(applicationContext, "app error ${e.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                return@launch
+            } catch (e: HttpException) {
+                Handler(Looper.getMainLooper()).post {
+                    Toast.makeText(
+                        applicationContext,
+                        "http error ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                return@launch
+            }
+
+            //check response code and body for data extraction
+            if (response.isSuccessful && response.body() != null) {
+                withContext(Dispatchers.Main) {
+
+                    //store the response body in data variable
+                    val data = response.body()!!
+
+                    //
+                    var forecastArray = arrayListOf<ForecastData>()
+
+                    //store data (Response body) as arrayList
+                    forecastArray=data.list as ArrayList<ForecastData>
+
+                    //parse data into the recycler view
+                    val adapter = hourlyWeatherAdapter(forecastArray)
+                    binding.hourlyForecastRecyclerView.adapter=adapter
+                }
+            }
+        }
+
     }
 
     //call get current weather when activity is open again

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/appbackgroundimage"
     tools:context=".view.MainActivity">
 
     <LinearLayout
@@ -22,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="CITY OF TSHWANE"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -31,8 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="11 C"
+            android:textColor="@color/white"
             android:textAlignment="center"
-            android:textSize="24sp"
+            android:textSize="36sp"
             android:textStyle="bold" />
 
         <TextView
@@ -40,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Partly Cloudy"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -47,6 +51,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -56,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:text="H:26"
+                android:textColor="@color/white"
                 android:textAlignment="center"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -66,27 +72,27 @@
                 android:layout_height="wrap_content"
                 android:text="L:11"
                 android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
-
-        <TextView
-            android:id="@+id/feelsLikeTemperature_textView"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/weather_imageView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Feels like 10C"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_gravity="center"
+            android:src="@drawable/defaultweatherimage" />
+
     </LinearLayout>
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
+        android:layout_marginBottom="24dp"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/temperature_linearLayout"
         app:layout_constraintStart_toStartOf="@id/temperature_linearLayout"
@@ -106,18 +112,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Today"
                     android:layout_marginBottom="4dp"
+                    android:text="Today"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <!-- hourly forecast linear layout-->
                 <LinearLayout
                     android:id="@+id/hourlyForecast_linearLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/linear_layout_shape"
-                    android:elevation="16dp"
-                    android:orientation="horizontal"
+                    android:alpha=".9"
+                    android:backgroundTint="@color/linearLayoutBackgroundColor"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="parent">
@@ -126,10 +134,41 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:textSize="12sp"
                         android:paddingStart="4dp"
+                        android:layout_marginStart="8dp"
+                        android:drawablePadding="4dp"
+                        app:drawableTint="@color/linearLayoutTitleColor"
+                        android:drawableStart="@drawable/hourlyforecast_img"
+                        android:textColor="@color/linearLayoutTitleColor"
                         android:text="hourly forecast"
-                        android:textAllCaps="true"
-                        android:textAlignment="center" />
+                        android:textAllCaps="true" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/linearLayoutTitleColor"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"/>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/hourlyForecast_recyclerView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:listitem="@layout/recycler_view_layout" />
+
 
                 </LinearLayout>
 
@@ -138,11 +177,13 @@
                 <LinearLayout
                     android:id="@+id/daysForecast_linearLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="400dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/linear_layout_shape"
                     android:elevation="16dp"
-                    android:orientation="horizontal"
+                    android:alpha=".9"
+                    android:backgroundTint="@color/linearLayoutBackgroundColor"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="parent">
@@ -152,9 +193,24 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:paddingStart="4dp"
+                        android:layout_marginStart="8dp"
+                        android:drawablePadding="4dp"
+                        app:drawableTint="@color/linearLayoutTitleColor"
+                        android:drawableStart="@drawable/dailyforecast_img"
+                        android:textSize="12sp"
+                        android:textColor="@color/linearLayoutTitleColor"
                         android:text="8-day forecast"
-                        android:textAllCaps="true"
-                        android:textAlignment="center" />
+                        android:textAllCaps="true" />
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/linearLayoutTitleColor"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"/>
+
 
                 </LinearLayout>
 
@@ -164,42 +220,89 @@
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal">
 
-                    <!--UV Index linear layout-->
+                    <!--Feels like linear layout-->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight=".5"
+                        android:alpha=".9"
+                        android:backgroundTint="@color/linearLayoutBackgroundColor"
+                        android:elevation="16dp"
                         android:background="@drawable/linear_layout_shape"
                         android:orientation="vertical">
 
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/feelslike_img"
+                            android:layout_margin="8dp"
+                            android:layout_gravity="center"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:paddingStart="4dp"
-                            android:text="UV Index"
+                            android:textSize="12sp"
+                            android:textColor="@color/linearLayoutTitleColor"
+                            android:text="Feels like"
+                            android:textAlignment="center"
+                            android:textAllCaps="true" />
+
+                        <TextView
+                            android:id="@+id/feelsLikeTemperature_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="11C"
+                            android:textColor="@color/white"
+                            android:textAlignment="center"
                             android:textAllCaps="true"
-                            android:textAlignment="center" />
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
 
 
                     </LinearLayout>
 
                     <!--Humidity linear layout-->
                     <LinearLayout
+                        android:elevation="16dp"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
+                        android:alpha=".9"
+                        android:backgroundTint="@color/linearLayoutBackgroundColor"
                         android:layout_weight=".5"
                         android:background="@drawable/linear_layout_shape"
                         android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/himidity_img"
+                            android:layout_margin="8dp"
+                            android:layout_gravity="center"/>
+
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="Humidity"
+                            android:textSize="12sp"
+                            android:textColor="@color/linearLayoutTitleColor"
+                            android:textAlignment="center"
+                            android:textAllCaps="true" />
+
+                        <TextView
+                            android:id="@+id/humidity_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="01:00"
+                            android:textColor="@color/white"
+                            android:textAlignment="center"
                             android:textAllCaps="true"
-                            android:textAlignment="center" />
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
 
 
                     </LinearLayout>
@@ -214,37 +317,84 @@
 
                     <!--Wind linear layout-->
                     <LinearLayout
+                        android:elevation="16dp"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:layout_marginEnd="8dp"
+                        android:alpha=".9"
+                        android:backgroundTint="@color/linearLayoutBackgroundColor"
                         android:layout_weight=".5"
                         android:background="@drawable/linear_layout_shape"
                         android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/wind_img"
+                            android:layout_margin="8dp"
+                            android:layout_gravity="center"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="Wind"
+                            android:textSize="12sp"
+                            android:textColor="@color/linearLayoutTitleColor"
+                            android:textAlignment="center"
+                            android:textAllCaps="true" />
+
+                        <TextView
+                            android:id="@+id/windSpeed_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="00:00"
+                            android:textColor="@color/white"
+                            android:textAlignment="center"
                             android:textAllCaps="true"
-                            android:textAlignment="center" />
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <!--Pressure linear layout-->
                     <LinearLayout
+                        android:elevation="16dp"
                         android:layout_width="0dp"
+                        android:alpha=".9"
+                        android:backgroundTint="@color/linearLayoutBackgroundColor"
                         android:layout_height="100dp"
                         android:layout_weight="0.5"
                         android:background="@drawable/linear_layout_shape"
                         android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/pressure_img"
+                            android:layout_margin="8dp"
+                            android:layout_gravity="center"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="Pressure"
-                            android:textAllCaps="true"
-                            android:textAlignment="center" />
+                            android:textSize="12sp"
+                            android:textColor="@color/linearLayoutTitleColor"
+                            android:textAlignment="center"
+                            android:textAllCaps="true" />
+
+                        <TextView
+                            android:id="@+id/pressure_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="00:00"
+                            android:textColor="@color/white"
+                            android:textAlignment="center"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -258,38 +408,97 @@
 
                     <!--Visibility linear layout-->
                     <LinearLayout
+                        android:elevation="16dp"
                         android:layout_width="0dp"
+                        android:alpha=".9"
+                        android:backgroundTint="@color/linearLayoutBackgroundColor"
                         android:layout_height="100dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight=".5"
                         android:background="@drawable/linear_layout_shape"
                         android:orientation="vertical">
 
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/visibility_img"
+                            android:layout_margin="8dp"
+                            android:layout_gravity="center"/>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="Visibility"
+                            android:textSize="12sp"
+                            android:textColor="@color/linearLayoutTitleColor"
+                            android:textAlignment="center"
+                            android:textAllCaps="true" />
+
+                        <TextView
+                            android:id="@+id/visibility_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="00:00"
+                            android:textColor="@color/white"
+                            android:textAlignment="center"
                             android:textAllCaps="true"
-                            android:textAlignment="center" />
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
-                    <!--Sunrise linear layout-->
+                    <!--Sunset linear layout-->
                     <LinearLayout
+                        android:elevation="16dp"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
+                        android:alpha=".9"
+                        android:backgroundTint="@color/linearLayoutBackgroundColor"
                         android:layout_weight=".5"
                         android:background="@drawable/linear_layout_shape"
                         android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/sunset_img"
+                            android:layout_margin="8dp"
+                            android:layout_gravity="center"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="Sunset"
+                            android:textSize="12sp"
+                            android:textColor="@color/linearLayoutTitleColor"
+                            android:textAlignment="center"
+                            android:textAllCaps="true" />
+
+                        <TextView
+                            android:id="@+id/sunsetTime_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="00:00"
+                            android:textColor="@color/white"
+                            android:textAlignment="center"
                             android:textAllCaps="true"
-                            android:textAlignment="center" />
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/sunriseTime_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="sunrise: 00:00"
+                            android:textColor="@color/linearLayoutTitleColor"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textSize="12dp" />
                     </LinearLayout>
 
                 </LinearLayout>
