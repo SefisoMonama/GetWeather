@@ -1,5 +1,6 @@
 package com.example.getweather.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -32,6 +33,12 @@ class MainActivity : AppCompatActivity() {
 
         getCurrentWeather()
         getForecast()
+        //setupUi()
+    }
+
+    private fun setupUi(){
+
+
     }
 
     //get current weather details
@@ -66,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                     val iconId = data.weather[0].icon
 
                 //build image url
-                    val imageUrl = "${util.IMAGE_BASE_URL + iconId}.png"
+                    val imageUrl = "${util.IMAGE_BASE_URL + iconId}@4x.png"
 
 
                     //Handler(Looper.getMainLooper()).post {
@@ -90,15 +97,15 @@ class MainActivity : AppCompatActivity() {
                                 Locale.ENGLISH
                             ).format(data.sys.sunset * 1000)
 
-                        //for other view
+                        //for other view //data to be moved to view
                         binding.apply {
                             descriptionTextView.text = data.weather[0].description
                             windSpeedTextView.text = "${data.wind.speed.toString()} KM/H | ${data.wind.deg.toInt()}°"
                             locationTextView.text = "${data.name}\n${data.sys.country}"
-                            temperatureTextView.text= "${data.main.temp.toInt()}℃"
+                            temperatureTextView.text= "${data.main.temp.toInt()}°"
                             feelsLikeTemperatureTextView.text = " ${data.main.feels_like.toInt()}℃"
-                            minTenperatureTextView.text = "L: ${data.main.temp_min.toInt()}℃"
-                            maxTemperatureTextView.text = "H: ${data.main.temp_max.toInt()}℃"
+                            minTenperatureTextView.text = "L: ${data.main.temp_min.toInt()}°"
+                            maxTemperatureTextView.text = "H: ${data.main.temp_max.toInt()}°"
                             humidityTextView.text = "${data.main.humidity}%"
                             pressureTextView.text = "${data.main.pressure}\nhPa"
                             visibilityTextView.text = "${data.visibility} KM"
@@ -147,10 +154,20 @@ class MainActivity : AppCompatActivity() {
 
                     //store data (Response body) as arrayList
                     forecastArray=data.list as ArrayList<ForecastData>
-
                     //parse data into the recycler view
                     val adapter = hourlyWeatherAdapter(forecastArray)
-                    binding.hourlyForecastRecyclerView.adapter=adapter
+
+                    runOnUiThread() {
+                        binding.hourlyForecastRecyclerView.adapter = adapter
+                        adapter.setOnItemClickListener(object : hourlyWeatherAdapter.onItemClickListener{
+                            override fun onItemClick(position: Int) {
+                                val intent = Intent(applicationContext, selectedDayForecastActivity::class.java)
+                               intent.putExtra("weather Date", position)
+                                startActivity(intent)
+                            }
+
+                        })
+                    }
                 }
             }
         }

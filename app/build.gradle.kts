@@ -62,4 +62,8 @@ dependencies {
 
     //Picasso (to open icons/images from URL)
     implementation("com.squareup.picasso:picasso:2.8")
+
+    //ViewModel and livedata
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 }
