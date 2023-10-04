@@ -30,7 +30,6 @@ class hourlyWeatherAdapter(private val forecastArray: ArrayList<ForecastData>) :
 
     class ViewHolder(val binding: RecyclerViewLayoutBinding, listener: onItemClickListener) : RecyclerView.ViewHolder(binding.root) {
         init {
-
             binding.recyclerViewLinearLayout.setOnClickListener{
                 listener.onItemClick(adapterPosition)
             }
