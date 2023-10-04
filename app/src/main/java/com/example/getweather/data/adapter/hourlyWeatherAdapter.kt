@@ -53,7 +53,6 @@ class hourlyWeatherAdapter(private val forecastArray: ArrayList<ForecastData>) :
 
             Picasso.get().load(imageUrl).into(dailyForecastImageImageView)
             dailyForecastTemperatureTextView.text = "${currentItem.main.temp.toInt()}℃"
-
             dailyForecasttimeTextView.text = displayTime(currentItem.dt_txt)
             forecastDateTextView.text = displayDate(currentItem.dt_txt)
             //forecastDayTextView.text= displayDay("${currentItem.dt_txt} - ")

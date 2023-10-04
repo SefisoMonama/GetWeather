@@ -5,8 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.GridLayout
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.getweather.data.adapter.hourlyWeatherAdapter
 import com.example.getweather.data.forecastModels.ForecastData
 import com.example.getweather.data.utils.RetrofitInstance
@@ -42,11 +47,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeUi(){
-
-        binding.locationTextView.setOnClickListener{
-            val intent1 = Intent(applicationContext, selectedDayForecastActivity::class.java)
-            startActivity(intent1)
-        }
 
         //current weather
         viewModel.currentWeather.observe(this) { data ->
@@ -99,25 +99,24 @@ class MainActivity : AppCompatActivity() {
             //parse data into the recycler view
             val adapter = hourlyWeatherAdapter(forecastArray)
 
-            runOnUiThread {
+
                 binding.hourlyForecastRecyclerView.adapter = adapter
-
-                adapter.notifyDataSetChanged()
-
+                 binding.hourlyForecastRecyclerView.layoutManager = GridLayoutManager(this, adapter.itemCount)
+                //move to selected day forecast fragment activity when an item in recycler is clicked
                 adapter.setOnItemClickListener(object : hourlyWeatherAdapter.onItemClickListener {
                     override fun onItemClick(position: Int) {
                         val intent =
                             Intent(applicationContext, selectedDayForecastActivity::class.java)
-                        intent.putExtra("weather Date", position)
+                        intent.putExtra("weather Date", adapter.getItemId(position))
                         startActivity(intent)
                     }
-
                 })
-            }
+
         }
     }
 
-    //call get current weather when activity is open again
+
+
     override fun onRestart() {
         subscribeUi()
         super.onRestart()

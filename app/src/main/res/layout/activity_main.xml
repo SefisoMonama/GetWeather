@@ -111,7 +111,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/hourlyForecast_recyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_margin="12dp"
                         android:visibility="visible"
                         android:orientation="horizontal"
@@ -121,47 +121,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         tools:listitem="@layout/recycler_view_layout" />
 
-
-                <!-- daily forecast linear layout -->
-                <LinearLayout
-                    android:id="@+id/daysForecast_linearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:layout_marginTop="8dp"
-                    android:alpha=".9"
-                    android:background="@drawable/linear_layout_shape"
-                    android:elevation="16dp"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:drawableStart="@drawable/dailyforecast_img"
-                        android:drawablePadding="4dp"
-                        android:paddingStart="4dp"
-                        android:text="8-day forecast"
-                        android:textAllCaps="true"
-                        android:textColor="@color/linearLayoutTitleColor"
-                        android:textSize="12sp"
-                        app:drawableTint="@color/linearLayoutTitleColor" />
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@color/linearLayoutTitleColor" />
-
-
-                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
